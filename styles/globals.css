@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,html{
+  background: linear-gradient(180deg, #ffffff 0%, rgb(255, 255, 255) 100%, rgb(255, 255, 255) 100%);
+}
+@media (min-width: 400px) {
+  .background-gradient::before {
+    background: radial-gradient(
+      20% 50% at 50% 50%,
+      rgb(255, 255, 255) 0%,
+      rgb(255, 255, 255) 100%
+    );
+    z-index: -10;
+    content: "";
+    position: absolute;
+    inset: 0px;
+    transform: scale(1);
+    pointer-events: none;
+  }
+}
