@@ -22,6 +22,7 @@ jobs:
           username: dev
           host: 3.28.231.87
           password: dev@2023
+          port: 22
           script: |
             cd /var/www/writehome
             sudo cp -r * /var/www/writehome
