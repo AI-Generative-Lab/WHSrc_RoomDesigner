@@ -14,7 +14,7 @@ jobs:
       - name: Install Dependencies
         run: |
           cd ${{ github.workspace }}/WriteHomes
-          composer install
+          composer update
 
       - name: Generate key
         run: |
