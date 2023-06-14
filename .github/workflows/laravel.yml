@@ -13,11 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH agent
-        uses: webfactory/ssh-agent@v0.5.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Install SSH client
+        run: sudo apt-get install -y ssh
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -p 22 dev@3.28.231.87 'cd /var/www/writehome && sudo cp -r * /var/www/writehome && sudo chown -R www-data:www-data /var/www/writehome && sudo chmod -R 755 /var/www/writehome'
+          sshpass -p ${{ secrets.EC2_PASSWORD }} ssh -o StrictHostKeyChecking=no -p <your_ssh_port> <your_username>@<your_host> 'cd /var/www/writehome && sudo cp -r * /var/www/writehome && sudo chown -R www-data:www-data /var/www/writehome && sudo chmod -R 755 /var/www/writehome'
