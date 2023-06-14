@@ -13,9 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install SSH client
-        run: sudo apt-get install -y sshpass
+      - name: Install SSH client and rsync
+        run: sudo apt-get install -y sshpass rsync
 
       - name: Deploy to EC2
         run: |
-          sshpass -p "dev@2023" ssh -o StrictHostKeyChecking=no -p 22 dev@3.28.231.87 'cd /var/www/writehome && sudo cp -r * /var/www/writehome && sudo chown -R www-data:www-data /var/www/writehome && sudo chmod -R 755 /var/www/writehome'
+          sshpass -p "dev@2023" rsync -e "ssh -o StrictHostKeyChecking=no -p 22" -r ./path/to/local/files/ dev@3.28.231.87:/var/www/writehome
