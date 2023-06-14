@@ -13,16 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.5.0
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          password: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /var/www/writehome
-            sudo cp -r * /var/www/writehome
-            sudo chown -R www-data:www-data /var/www/writehome
-            sudo chmod -R 755 /var/www/writehome
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Additional steps as needed
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 22 dev@3.28.231.87 'cd /var/www/writehome && sudo cp -r * /var/www/writehome && sudo chown -R www-data:www-data /var/www/writehome && sudo chmod -R 755 /var/www/writehome'
