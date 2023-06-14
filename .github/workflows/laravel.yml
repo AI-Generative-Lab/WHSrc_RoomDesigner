@@ -16,6 +16,15 @@ jobs:
       - name: Install SSH client and rsync
         run: sudo apt-get install -y sshpass rsync
 
-      - name: Deploy to EC2
-        run: |
-          sshpass -p "dev@2023" rsync -e "ssh -o StrictHostKeyChecking=no -p 22" -r ./path/to/local/files/ dev@3.28.231.87:/var/www/writehome
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        with:
+          username: dev
+          host: 3.28.231.87
+          password: dev@2023
+          script: |
+            cd /var/www/writehome
+            sudo cp -r * /var/www/writehome
+            sudo chown -R www-data:www-data /var/www/writehome
+            sudo chmod -R 755 /var/www/writehome
+     
