@@ -13,14 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install SSH client and rsync
-        run: sudo apt-get install -y sshpass rsync
-
-      - name: Deploy to production
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
-          username: dev
           host: 3.28.231.87
+          username: dev
           password: dev@2023
           port: 22
           script: |
@@ -28,4 +25,3 @@ jobs:
             sudo cp -r * /var/www/writehome
             sudo chown -R www-data:www-data /var/www/writehome
             sudo chmod -R 755 /var/www/writehome
-     
