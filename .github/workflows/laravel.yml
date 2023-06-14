@@ -1,18 +1,28 @@
-name: Laravel
+name: Deploy to AWS EC2
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  laravel-tests:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Install Dependencies
-      run: cd WriteHomes && composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Generate key
-      run: cd WriteHomes && php artisan key:generate
-    - name: Directory Permissions
-      run: cd WriteHomes && chmod -R 777 storage bootstrap/cache
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/writehome
+            sudo cp -r * /var/www/writehome
+            sudo chown -R www-data:www-data /var/www/writehome
+            sudo chmod -R 755 /var/www/writehome
+
+      # Additional steps as needed
