@@ -28,6 +28,6 @@ jobs:
 
       - name: Deploy to /var/www/writehome
         run: |
-          sudo cp -R ${{ github.workspace }}/WriteHomes /var/www/writehome
+          sudo cp -R ${{ github.workspace }}/WriteHomes/. /var/www/writehome
           sudo chown -R www-data:www-data /var/www/writehome
           sudo chmod -R 755 /var/www/writehome
